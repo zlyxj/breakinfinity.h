@@ -1,15 +1,114 @@
+#include<bits/stdc++.h>
 using namespace std;
-//breakinfinity.h v1.0
-//使c++支持-ee4932~+ee4932的大数字 
-//以下为补充内容
-//ToNum(a,b):返回Num，a*10^b
-//printNum(r):输出r，一个Num
-//Add(a,b),Mul(a,b):a+b和a*b
-//Neg(a):返回-a
-//Reci(a):返回1÷a
+/*
+使c++支持10^10^308的大数字 
+以下为补充内容
+*/
 struct Num{
 	long double base;
 	long double exp;
+Num operator+(const Num& n)
+{
+	Num m;
+	m.base=this->base;
+	m.exp=this->exp;
+	Num m1,n1;
+	if(m.exp==n.exp)
+	{
+		m1=m;
+		n1=n;
+	}
+	else if(fabs(m.exp-n.exp)<=25.0)
+	{
+		if(m.exp<n.exp)
+		{
+			m1.base=pow(0.1,(n.exp-m.exp))*m.base;
+			m1.exp=n.exp;
+			n1=n;
+		}
+		else
+		{
+			n1.base=pow(0.1,(m.exp-n.exp))*n.base;
+			n1.exp=m.exp;
+			m1=m;
+		}
+	}
+	else
+	{
+		if(m.exp>n.exp)
+		{
+			n1.exp=m.exp;
+			n1.base=0;
+			m1=m;
+		}
+		else{
+			m1.exp=n.exp;
+			m1.base=0;
+			n1=n;
+		}
+	}
+	Num result;
+	result.exp=n1.exp;
+	result.base=n1.base+m1.base;
+	if (fabs(result.base)>=10)
+	{
+		result.base/=10;
+		result.exp+=1;
+	}
+	while (fabs(result.base)<=0.1)
+	{
+		result.base*=10;
+		result.exp-=1;
+	}
+	return result;
+}
+Num operator-(const Num& n)
+{
+	Num m;
+	m.base=-(n.base);
+	m.exp=n.exp;
+	Num o;
+	o.base=this->base;
+	o.exp=this->exp;
+	Num result;
+	result=m+o;
+	return result;
+}
+Num operator*(const Num& n)
+{
+	Num m;
+	m.base=this->base;
+	m.exp=this->exp;
+	Num result;
+	result.exp=n.exp+m.exp;
+	result.base=n.base*m.base;
+	while (fabs(result.base)>=10)
+	{
+		result.base/=10;
+		result.exp+=1;
+	}
+	return result;
+}
+Num operator/(const Num& n)
+{
+	Num result;
+	result.exp=-(n.exp);
+	result.base=1/(n.base);
+	while (fabs(result.base)>=10)
+	{
+		result.base/=10;
+		result.exp+=1;
+	}
+	while (fabs(result.base)<=0.1)
+	{
+		result.base*=10;
+		result.exp-=1;
+	}
+	Num t;
+	t.exp=this->exp;
+	t.base=this->base;
+	return (t*result);
+}
 };
 Num ToNum(long double a,long double b)
 {
@@ -17,6 +116,18 @@ Num ToNum(long double a,long double b)
 	r.base=a;
 	r.exp=b;
 	return r;
+}
+int NumToInt(Num a)
+{
+	return a.base*pow(10,a.exp);
+}
+double NumToDouble(Num a)
+{
+	return a.base*pow(10,a.exp);
+}
+long double NumToLD(Num a)
+{
+	return a.base*pow(10,a.exp);
 }
 void printNum(Num r)
 {
