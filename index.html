@@ -2,11 +2,25 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <style type="text/css">
+    code
+    {
+      font-family:"Consolas","Courier New",monospace;
+      color:grey;
+      background-color:"#EEEEEE";
+    }
 </head>
 <body>
-  <h1>breakinfinity.h v1.0</h1>
-  <p>这是我制作的c++头文件，让c++支持最大10<sup>10<sup>4,932</sup></sup>的数字。</p>
+  <h1>breakinfinity.h v1.1</h1>
+  <p>这是我制作的c++头文件，让c++支持最大10<sup>10<sup>308</sup></sup>的数字。</p>
   <h2>如何使用</h2>
-  <p>先找到iostream所在的文件夹，在文件夹里新建一个文件“breakinfinity.h"，并把需要的内容放进去，然后在c++代码中加上<code>#include&#60breakinfinity.h&#62</code>即可。</p>
+  <p>第一步：找到文件<code>breakinfinity.h</code>。</p>
+  <p>第二步：找到<code>&#60;iostream&#62;</code>所在的文件夹。</p>
+  <p>第三步：在文件夹中新建文件<code>bi.h</code>（也可以使用其他名字），并将我制作的头文件的内容放入。</p>
+  <p>第四步：在C++代码中使用以下头文件：<code>#include&#60;bi.h&#62;</code></p>
+  <p>（如果你在第三步使用了其他名字，请用你的名字替换<code>bi.h</code><p>
+  <h2>包含内容</h2>
+  <p>这个头文件使用结构体<code>Num</code>表示大数字，N=N.base×10<sup>N.exp</sup></p>
+  <p>大数可以直接使用运算符+ - * /。<code>NumToInt(N)</code>，<code>NumToDouble(N)</code>，<code>NumToLD(N)</code>可以将N转换成<code>int</code>，<code>double</code>和<code>long double</code>类型，但不能超过对应类型的限制。
 </body>
 </html>
